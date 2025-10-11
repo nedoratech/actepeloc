@@ -1,5 +1,6 @@
+import { SupabaseConfig } from "./supabase.js";
+
 export interface ApiConfig {
-  supabaseUrl: string;
-  supabaseKey: string;
+  supabase: SupabaseConfig;
   nodeEnv: string;
 }

@@ -1,8 +1,10 @@
 import { config } from "../config.js";
-import { ApiConfig } from "../types/index.js";
 
-export function validateConfig(requiredVars: (keyof ApiConfig)[]) {
-  const missing = requiredVars.filter((key) => !config[key]);
+export function validateConfig(requiredVars: string[]) {
+  const missing = requiredVars.filter((path) => {
+    const value = path.split(".").reduce((obj: any, key) => obj?.[key], config);
+    return !value;
+  });
 
   if (missing.length > 0) {
     throw new Error(`Missing required environment variables: ${missing.join(", ")}`);

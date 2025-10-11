@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { validator } from "../configuration/utils/index.js";
-import { ApiConfig } from "../configuration/types/index.js";
 
 type Handler = (req: VercelRequest, res: VercelResponse) => Promise<any>;
 
-export function withValidation(requiredVars: (keyof ApiConfig)[], handler: Handler) {
+export function withValidation(requiredVars: string[], handler: Handler) {
   return async (req: VercelRequest, res: VercelResponse) => {
     try {
       validator.validateConfig(requiredVars);
