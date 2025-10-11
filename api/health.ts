@@ -10,4 +10,4 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   });
 }
 
-export default withValidation(["supabaseUrl", "supabaseKey"], handler);
+export default withValidation(["supabase.url", "supabase.key"], handler);

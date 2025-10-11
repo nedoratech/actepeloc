@@ -29,13 +29,22 @@ Create a `.env.local` file in the project root:
 
 ```env
 # Supabase Configuration
-SUPABASE_URL=your-supabase-url
-SUPABASE_API_KEY=your-supabase-key
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_API_KEY=your-anon-key-here
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 
-# Add other environment variables as needed
+# For frontend (Vite)
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+
+NODE_ENV=development
 ```
 
-See `.env.example` for reference (if you haven't created one, copy from `.env.local`).
+**Important:**
+
+- `SUPABASE_API_KEY` - Anon/public key (safe for frontend)
+- `SUPABASE_SERVICE_ROLE_KEY` - Admin key (BACKEND ONLY, never expose to frontend!)
+- Get these keys from Supabase Dashboard: Settings → API
 
 ### Development
 
@@ -84,13 +93,21 @@ yarn format:check
 ```
 actepeloc/
 ├── api/                          # Vercel serverless functions
+│   ├── auth/
+│   │   └── signup.ts             # User signup endpoint
 │   ├── lib/
 │   │   ├── configuration/        # Environment config
 │   │   │   ├── config.ts         # Config values
 │   │   │   ├── types/            # TypeScript types
 │   │   │   └── utils/            # Validation utilities
-│   │   └── middleware/
-│   │       └── withValidation.ts # Config validation middleware
+│   │   ├── middleware/
+│   │   │   └── withValidation.ts # Config validation middleware
+│   │   ├── supabase/
+│   │   │   └── client.ts         # Supabase admin client
+│   │   ├── types/
+│   │   │   └── auth.ts           # Auth type definitions
+│   │   └── validation/
+│   │       └── schemas.ts        # Request validation schemas
 │   ├── health.ts                 # Health check endpoint
 │   └── tsconfig.json             # TypeScript config for API
 ├── src/                          # React frontend
@@ -114,6 +131,63 @@ API endpoints are located in `/api` directory. Each `.ts` file becomes a serverl
 ### Available Endpoints
 
 - `GET /api/health` - Health check endpoint
+- `POST /api/auth/signup` - User registration endpoint
+
+#### Authentication API
+
+**POST `/api/auth/signup`** - Create a new user account
+
+Request body:
+
+```json
+{
+  "email": "user@example.com",
+  "password": "SecurePassword123",
+  "full_name": "John Doe" // optional
+}
+```
+
+Success response (201):
+
+```json
+{
+  "success": true,
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "created_at": "2025-10-11T..."
+  },
+  "message": "User created successfully"
+}
+```
+
+Error response (400/500):
+
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "code": "ERROR_CODE"
+}
+```
+
+**Password Requirements:**
+
+- Minimum 8 characters
+- At least one letter
+- At least one number
+
+**Example using curl:**
+
+```bash
+curl -X POST http://localhost:3000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "TestPassword123",
+    "full_name": "Test User"
+  }'
+```
 
 ### Creating New Endpoints
 

@@ -1,7 +1,10 @@
 import { ApiConfig } from "./types/index.js";
 
 export const config: ApiConfig = {
-  supabaseUrl: process.env.SUPABASE_URL || "",
-  supabaseKey: process.env.SUPABASE_API_KEY || "",
+  supabase: {
+    url: process.env.SUPABASE_URL || "",
+    key: process.env.SUPABASE_API_KEY || "",
+    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || "",
+  },
   nodeEnv: process.env.NODE_ENV || "",
 } as const;
