@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+yarn.lock
+package-lock.json
+
+# Build outputs
+dist
+build
+.next
+out
+.vercel
+
+# Cache
+.cache
+.turbo
+.parcel-cache
+.vite
+
+# Generated files
+coverage
+*.log
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Git
+.git
+.gitignore
+
+# Public assets (don't format)
+public
+
+# Config that might have specific formatting
+tsconfig*.json
+
