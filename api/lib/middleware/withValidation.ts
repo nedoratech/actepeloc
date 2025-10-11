@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { validator } from "../configuration/utils/validator.js";
-import { ApiConfig } from "../configuration/types/ApiConfig.js";
+import { validator } from "../configuration/utils/index.js";
+import { ApiConfig } from "../configuration/types/index.js";
 
 type Handler = (req: VercelRequest, res: VercelResponse) => Promise<any>;
 
