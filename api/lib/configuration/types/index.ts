@@ -1,1 +1,1 @@
-export type { ApiConfig } from "./ApiConfig.js";
+export type { ApiConfig } from "./apiConfig.js";
