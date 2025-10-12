@@ -3,11 +3,8 @@
   "outputDirectory": "dist",
   "installCommand": "yarn install",
   "functions": {
-    "api/!(lib)/**/*.ts": {
-      "runtime": "@vercel/node"
-    },
-    "api/*.ts": {
-      "runtime": "@vercel/node"
+    "api/**/*.ts": {
+      "includeFiles": "src/api/**"
     }
   }
 }

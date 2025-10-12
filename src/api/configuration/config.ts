@@ -1,4 +1,4 @@
-import { ApiConfig } from "./types/index.js";
+import type { ApiConfig } from "./types/index.js";
 
 export const config: ApiConfig = {
   supabase: {

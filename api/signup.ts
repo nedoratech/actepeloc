@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { withValidation } from "./lib/middleware/withValidation.js";
-import { supabaseAdmin } from "./lib/supabase/index.js";
-import { validators } from "./lib/validation/index.js";
-import { SignupRequest, SignupResponse } from "./lib/types/index.js";
+import { withValidation } from "../src/api/middleware/withValidation.js";
+import { supabaseAdmin } from "../src/api/supabase/index.js";
+import { validators } from "../src/api/validation/index.js";
+import { SignupRequest, SignupResponse } from "../src/api/types/index.js";
 
 async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   if (req.method !== "POST") {

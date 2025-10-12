@@ -1,5 +1,5 @@
-import { SignupRequest } from "../types/index.js";
-import { ValidationResult } from "./types/index.js";
+import type { SignupRequest } from "../types/index.js";
+import type { ValidationResult } from "./types/index.js";
 
 const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
