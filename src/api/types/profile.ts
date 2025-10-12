@@ -1,4 +1,4 @@
-import { UserRole } from "./userRole.js";
+import type { UserRole } from "./userRole.js";
 
 export interface Profile {
   id: string;

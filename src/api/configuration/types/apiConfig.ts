@@ -1,4 +1,4 @@
-import { SupabaseConfig } from "./supabase.js";
+import type { SupabaseConfig } from "./supabase.js";
 
 export interface ApiConfig {
   supabase: SupabaseConfig;
