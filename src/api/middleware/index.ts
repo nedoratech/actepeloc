@@ -1,1 +1,2 @@
-export { withValidation } from "./withValidation.js";
+export { withCors } from "./withCors.js";
+export { compose } from "./compose.js";

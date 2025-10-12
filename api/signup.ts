@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { withValidation } from "../src/api/middleware/withValidation.js";
+import { withCors } from "../src/api/middleware/index.js";
 import { supabaseAdmin } from "../src/api/supabase/index.js";
 import { validators } from "../src/api/validation/index.js";
 import { SignupRequest, SignupResponse } from "../src/api/types/index.js";
@@ -85,4 +85,4 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   }
 }
 
-export default withValidation(["supabase.url", "supabase.key", "supabase.serviceRoleKey"], handler);
+export default withCors(handler);
