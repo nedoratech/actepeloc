@@ -1,1 +1,1 @@
-export { signupRequestSchema, type SignupRequestValidated } from "./signupRequest.js";
+export { signupRequestValidator } from "./signupRequestValidator.js";

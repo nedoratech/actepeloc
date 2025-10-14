@@ -1,6 +1,6 @@
 import { withCors } from "../src/api/middleware/index.js";
 import { supabaseAuthRegistry } from "../src/api/registries/index.js";
-import { signupRequestSchema } from "../src/api/validators/index.js";
+import { signupRequestValidator } from "../src/api/validators/index.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { ApiResponse } from "../src/api/types/index.js";
 
@@ -16,103 +16,80 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     return;
   }
 
-  try {
-    const validation = signupRequestSchema.safeParse(req.body);
+  const validation = await signupRequestValidator.validate(req.body);
+  if (!validation.success) {
+    const response: ApiResponse = {
+      success: false,
+      error: {
+        context: validation.errors,
+      },
+    };
+    res.status(400).json(response);
+    return;
+  }
 
-    if (!validation.success) {
+  const result = await supabaseAuthRegistry.signup(validation.data);
+
+  if (result.error) {
+    if (result.error.code === "USER_ALREADY_EXISTS") {
       const response: ApiResponse = {
         success: false,
         error: {
-          context: validation.error.issues.map((issue) => ({
-            field: issue.path.join(".") || "unknown",
-            message: issue.message,
-          })),
+          context: [
+            {
+              code: "USER_ALREADY_EXISTS",
+              message: "A user with this email already exists",
+            },
+          ],
         },
       };
       res.status(400).json(response);
       return;
     }
 
-    const result = await supabaseAuthRegistry.signup(validation.data);
-
-    if (result.error) {
-      console.error("Auth error:", result.error);
-
-      if (result.error.code === "USER_ALREADY_EXISTS") {
-        const response: ApiResponse = {
-          success: false,
-          error: {
-            context: [
-              {
-                code: "USER_ALREADY_EXISTS",
-                message: "A user with this email already exists",
-              },
-            ],
-          },
-        };
-        res.status(400).json(response);
-        return;
-      }
-
-      const response: ApiResponse = {
-        success: false,
-        error: {
-          context: [
-            {
-              code: result.error.code || "AUTH_ERROR",
-              message: result.error.message,
-            },
-          ],
-        },
-      };
-      res.status(500).json(response);
-      return;
-    }
-
-    if (!result.data) {
-      const response: ApiResponse = {
-        success: false,
-        error: {
-          context: [
-            {
-              code: "USER_CREATION_FAILED",
-              message: "Failed to create user",
-            },
-          ],
-        },
-      };
-      res.status(500).json(response);
-      return;
-    }
-
-    const response: ApiResponse<SignupSuccessData> = {
-      success: true,
-      data: {
-        user: {
-          id: result.data.id,
-          email: result.data.email,
-          created_at: result.data.created_at,
-        },
-        message: "User created successfully",
-      },
-    };
-    res.status(201).json(response);
-  } catch (error) {
-    console.error("Unexpected error during signup:", error);
-
     const response: ApiResponse = {
       success: false,
       error: {
         context: [
           {
-            code: "INTERNAL_ERROR",
-            message: error instanceof Error ? error.message : "Internal server error",
+            code: result.error.code || "AUTH_ERROR",
+            message: result.error.message,
           },
         ],
       },
     };
     res.status(500).json(response);
+    return;
   }
+
+  if (!result.data) {
+    const response: ApiResponse = {
+      success: false,
+      error: {
+        context: [
+          {
+            code: "USER_CREATION_FAILED",
+            message: "Failed to create user",
+          },
+        ],
+      },
+    };
+    res.status(500).json(response);
+    return;
+  }
+
+  const response: ApiResponse<SignupSuccessData> = {
+    success: true,
+    data: {
+      user: {
+        id: result.data.id,
+        email: result.data.email,
+        created_at: result.data.created_at,
+      },
+      message: "User created successfully",
+    },
+  };
+  res.status(201).json(response);
 }
 
 type SignupSuccessData = {

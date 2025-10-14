@@ -7,7 +7,7 @@ import {
   SessionResult,
   ErrorResponse,
 } from "../types/index.js";
-import { config } from "@api/configuration/config.js";
+import { config } from "../../../configuration/index.js";
 
 class SupabaseAuthRegistry implements IAuthRegistry {
   #supabase: SupabaseClient;
@@ -26,10 +26,10 @@ class SupabaseAuthRegistry implements IAuthRegistry {
       const { data, error } = await this.#supabase.auth.admin.createUser({
         email: params.email,
         password: params.password,
-        email_confirm: false,
+        email_confirm: true,
         user_metadata: {
-          first_name: params.first_name,
-          last_name: params.last_name,
+          first_name: params.firstName,
+          last_name: params.lastName,
         },
       });
 
