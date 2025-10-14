@@ -55,7 +55,7 @@ class SupabaseAuthRegistry implements IAuthRegistry {
         data: {
           id: data.user.id,
           email: data.user.email!,
-          created_at: data.user.created_at,
+          createdAt: data.user.created_at,
         },
       };
     } catch (error) {
@@ -98,11 +98,11 @@ class SupabaseAuthRegistry implements IAuthRegistry {
           user: {
             id: data.user.id,
             email: data.user.email!,
-            created_at: data.user.created_at,
+            createdAt: data.user.created_at,
           },
           session: {
-            access_token: data.session.access_token,
-            refresh_token: data.session.refresh_token,
+            accessToken: data.session.access_token,
+            refreshToken: data.session.refresh_token,
           },
         },
       };
@@ -167,7 +167,7 @@ class SupabaseAuthRegistry implements IAuthRegistry {
         data: {
           id: data.user.id,
           email: data.user.email!,
-          created_at: data.user.created_at,
+          createdAt: data.user.created_at,
         },
       };
     } catch (error) {

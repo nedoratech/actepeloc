@@ -1,5 +1,7 @@
 import * as yup from "yup";
 import { ValidationResult } from "./types/validationResult.js";
+import { validateSchema } from "./utils/index.js";
+import { SignupRequest } from "../registries/index.js";
 
 const signupRequestSchema = yup.object({
   email: yup.string().required("Email cannot be empty").email("Invalid email address"),
@@ -32,28 +34,8 @@ const signupRequestSchema = yup.object({
 
 type SignupRequestValidated = yup.InferType<typeof signupRequestSchema>;
 
-async function validate(data: unknown): Promise<ValidationResult<SignupRequestValidated>> {
-  try {
-    const validatedData = await signupRequestSchema.validate(data, {
-      abortEarly: false,
-      stripUnknown: true,
-    });
-    return { success: true, data: validatedData };
-  } catch (error) {
-    if (error && typeof error === "object" && "name" in error && error.name === "ValidationError") {
-      const validationError = error as unknown as {
-        inner: Array<{ path?: string; message: string }>;
-      };
-      return {
-        success: false,
-        errors: validationError.inner.map((err) => ({
-          field: err.path || "unknown",
-          message: err.message,
-        })),
-      };
-    }
-    throw error;
-  }
+async function validate(data: SignupRequest): Promise<ValidationResult<SignupRequestValidated>> {
+  return validateSchema(signupRequestSchema, data);
 }
 
 export const signupRequestValidator = { validate };
