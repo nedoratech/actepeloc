@@ -1,88 +1,127 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { withCors } from "../src/api/middleware/index.js";
-import { supabaseAdmin } from "../src/api/supabase/index.js";
-import { validators } from "../src/api/validation/index.js";
-import { SignupRequest, SignupResponse } from "../src/api/types/index.js";
+import { supabaseAuthRegistry } from "../src/api/registries/index.js";
+import { signupRequestSchema } from "../src/api/validators/index.js";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiResponse } from "../src/api/types/index.js";
 
 async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   if (req.method !== "POST") {
-    res.status(405).json({
+    const response: ApiResponse = {
       success: false,
-      error: "Method not allowed",
-      code: "METHOD_NOT_ALLOWED",
-    });
+      error: {
+        context: [{ code: "METHOD_NOT_ALLOWED", message: "Method not allowed" }],
+      },
+    };
+    res.status(405).json(response);
     return;
   }
 
   try {
-    const body = req.body as SignupRequest;
+    const validation = signupRequestSchema.safeParse(req.body);
 
-    const validation = validators.validateSignupRequest(body);
-    if (!validation.valid) {
-      res.status(400).json({
+    if (!validation.success) {
+      const response: ApiResponse = {
         success: false,
-        error: validation.errors.join(", "),
-        code: "VALIDATION_ERROR",
-      } as SignupResponse);
+        error: {
+          context: validation.error.issues.map((issue) => ({
+            field: issue.path.join(".") || "unknown",
+            message: issue.message,
+          })),
+        },
+      };
+      res.status(400).json(response);
       return;
     }
 
-    const { data, error } = await supabaseAdmin.auth.admin.createUser({
-      email: body.email,
-      password: body.password,
-      email_confirm: true, // Auto-confirm email (change to false if you want email verification)
-      user_metadata: {
-        full_name: body.full_name || body.email.split("@")[0],
-      },
-    });
+    const result = await supabaseAuthRegistry.signup(validation.data);
 
-    if (error) {
-      console.error("Supabase auth error:", error);
+    if (result.error) {
+      console.error("Auth error:", result.error);
 
-      if (error.message.includes("already registered")) {
-        res.status(400).json({
+      if (result.error.code === "USER_ALREADY_EXISTS") {
+        const response: ApiResponse = {
           success: false,
-          error: "A user with this email already exists",
-          code: "USER_ALREADY_EXISTS",
-        } as SignupResponse);
+          error: {
+            context: [
+              {
+                code: "USER_ALREADY_EXISTS",
+                message: "A user with this email already exists",
+              },
+            ],
+          },
+        };
+        res.status(400).json(response);
         return;
       }
 
-      res.status(500).json({
+      const response: ApiResponse = {
         success: false,
-        error: error.message,
-        code: "AUTH_ERROR",
-      } as SignupResponse);
+        error: {
+          context: [
+            {
+              code: result.error.code || "AUTH_ERROR",
+              message: result.error.message,
+            },
+          ],
+        },
+      };
+      res.status(500).json(response);
       return;
     }
 
-    if (!data.user) {
-      res.status(500).json({
+    if (!result.data) {
+      const response: ApiResponse = {
         success: false,
-        error: "Failed to create user",
-        code: "USER_CREATION_FAILED",
-      } as SignupResponse);
+        error: {
+          context: [
+            {
+              code: "USER_CREATION_FAILED",
+              message: "Failed to create user",
+            },
+          ],
+        },
+      };
+      res.status(500).json(response);
       return;
     }
 
-    res.status(201).json({
+    const response: ApiResponse<SignupSuccessData> = {
       success: true,
-      user: {
-        id: data.user.id,
-        email: data.user.email!,
-        created_at: data.user.created_at,
+      data: {
+        user: {
+          id: result.data.id,
+          email: result.data.email,
+          created_at: result.data.created_at,
+        },
+        message: "User created successfully",
       },
-      message: "User created successfully",
-    } as SignupResponse);
+    };
+    res.status(201).json(response);
   } catch (error) {
     console.error("Unexpected error during signup:", error);
 
-    res.status(500).json({
+    const response: ApiResponse = {
       success: false,
-      error: error instanceof Error ? error.message : "Internal server error",
-      code: "INTERNAL_ERROR",
-    } as SignupResponse);
+      error: {
+        context: [
+          {
+            code: "INTERNAL_ERROR",
+            message: error instanceof Error ? error.message : "Internal server error",
+          },
+        ],
+      },
+    };
+    res.status(500).json(response);
   }
 }
+
+type SignupSuccessData = {
+  user: {
+    id: string;
+    email: string;
+    created_at: string;
+  };
+  message: string;
+};
 
 export default withCors(handler);
