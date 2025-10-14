@@ -1,6 +1,6 @@
 import { withCors } from "../src/api/middleware/index.js";
 import { supabaseAuthRegistry } from "../src/api/registries/index.js";
-import { signupRequestValidator } from "../src/api/validators/index.js";
+import { loginRequestValidator } from "../src/api/validators/index.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { ApiResponse } from "../src/api/types/index.js";
 
@@ -16,7 +16,7 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     return;
   }
 
-  const validation = await signupRequestValidator.validate(req.body);
+  const validation = await loginRequestValidator.validate(req.body);
   if (!validation.success) {
     const response: ApiResponse = {
       success: false,
@@ -28,22 +28,22 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     return;
   }
 
-  const result = await supabaseAuthRegistry.signup(validation.data);
+  const result = await supabaseAuthRegistry.login(validation.data);
 
   if (result.error) {
-    if (result.error.code === "USER_ALREADY_EXISTS") {
+    if (result.error.code === "INVALID_CREDENTIALS") {
       const response: ApiResponse = {
         success: false,
         error: {
           context: [
             {
-              code: "USER_ALREADY_EXISTS",
-              message: "A user with this email already exists",
+              code: "INVALID_CREDENTIALS",
+              message: "Invalid email or password",
             },
           ],
         },
       };
-      res.status(400).json(response);
+      res.status(401).json(response);
       return;
     }
 
@@ -68,8 +68,8 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
       error: {
         context: [
           {
-            code: "USER_CREATION_FAILED",
-            message: "Failed to create user",
+            code: "LOGIN_FAILED",
+            message: "Failed to login",
           },
         ],
       },
@@ -78,25 +78,33 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
     return;
   }
 
-  const response: ApiResponse<SignupSuccessData> = {
+  const response: ApiResponse<LoginSuccessData> = {
     success: true,
     data: {
       user: {
-        id: result.data.id,
-        email: result.data.email,
-        createdAt: result.data.createdAt,
+        id: result.data.user.id,
+        email: result.data.user.email,
+        createdAt: result.data.user.createdAt,
       },
-      message: "User created successfully",
+      session: {
+        accessToken: result.data.session.accessToken,
+        refreshToken: result.data.session.refreshToken,
+      },
+      message: "Login successful",
     },
   };
-  res.status(201).json(response);
+  res.status(200).json(response);
 }
 
-type SignupSuccessData = {
+type LoginSuccessData = {
   user: {
     id: string;
     email: string;
     createdAt: string;
+  };
+  session: {
+    accessToken: string;
+    refreshToken: string;
   };
   message: string;
 };
