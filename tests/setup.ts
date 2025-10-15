@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 
-afterEach(() => {
+beforeEach(() => {
   jest.clearAllMocks();
 });
 

@@ -1,4 +1,4 @@
-export { supabaseAuthRegistry } from "./providers/supabaseAuthRegistry.js";
+export { supabaseAuthRegistry } from "./providers/supabase/index.js";
 export type {
   IAuthRegistry,
   AuthResult,
