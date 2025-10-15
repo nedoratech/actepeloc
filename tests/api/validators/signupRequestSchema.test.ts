@@ -1,9 +1,10 @@
 import type { SignupRequest } from "../../../src/api/registries";
 import { signupRequestValidator } from "../../../src/api/validators/index.js";
+import { signupRequestBuilder } from "../../builders/signupRequestBuilder.js";
 
 describe("signupRequestSchema", () => {
   it("should fail when invalid email is provided", async () => {
-    const invalidEmailRequest = validSignupRequest({ email: "invalid-email" });
+    const invalidEmailRequest = signupRequestBuilder.valid({ email: "invalid-email" });
 
     var result = await runSignupRequestValidator(invalidEmailRequest);
 
@@ -14,7 +15,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when email is empty", async () => {
-    const invalidEmailRequest = validSignupRequest({ email: "" });
+    const invalidEmailRequest = signupRequestBuilder.valid({ email: "" });
 
     var result = await runSignupRequestValidator(invalidEmailRequest);
 
@@ -25,7 +26,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when password is empty", async () => {
-    const invalidPasswordRequest = validSignupRequest({ password: "" });
+    const invalidPasswordRequest = signupRequestBuilder.valid({ password: "" });
 
     var result = await runSignupRequestValidator(invalidPasswordRequest);
 
@@ -39,7 +40,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when password is less than 8 characters", async () => {
-    const invalidPasswordRequest = validSignupRequest({
+    const invalidPasswordRequest = signupRequestBuilder.valid({
       password: "Pass1",
       confirmPassword: "Pass1",
     });
@@ -53,7 +54,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when password does not contain at least one uppercase letter", async () => {
-    const invalidPasswordRequest = validSignupRequest({
+    const invalidPasswordRequest = signupRequestBuilder.valid({
       password: "password123",
       confirmPassword: "password123",
     });
@@ -67,7 +68,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when password does not contain at least one lowercase letter", async () => {
-    const invalidPasswordRequest = validSignupRequest({
+    const invalidPasswordRequest = signupRequestBuilder.valid({
       password: "PASSWORD123",
       confirmPassword: "PASSWORD123",
     });
@@ -81,7 +82,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when password does not contain at least one number", async () => {
-    const invalidPasswordRequest = validSignupRequest({
+    const invalidPasswordRequest = signupRequestBuilder.valid({
       password: "Password",
       confirmPassword: "Password",
     });
@@ -95,7 +96,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when confirm password is empty", async () => {
-    const invalidConfirmPasswordRequest = validSignupRequest({ confirmPassword: "" });
+    const invalidConfirmPasswordRequest = signupRequestBuilder.valid({ confirmPassword: "" });
 
     var result = await runSignupRequestValidator(invalidConfirmPasswordRequest);
 
@@ -112,7 +113,9 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when confirm password does not match password", async () => {
-    const invalidConfirmPasswordRequest = validSignupRequest({ confirmPassword: "Password123" });
+    const invalidConfirmPasswordRequest = signupRequestBuilder.valid({
+      confirmPassword: "Password123",
+    });
 
     var result = await runSignupRequestValidator(invalidConfirmPasswordRequest);
 
@@ -123,7 +126,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when first name is empty", async () => {
-    const invalidFirstNameRequest = validSignupRequest({ firstName: "" });
+    const invalidFirstNameRequest = signupRequestBuilder.valid({ firstName: "" });
 
     var result = await runSignupRequestValidator(invalidFirstNameRequest);
 
@@ -137,7 +140,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when first name is less than 2 characters", async () => {
-    const invalidFirstNameRequest = validSignupRequest({ firstName: "A" });
+    const invalidFirstNameRequest = signupRequestBuilder.valid({ firstName: "A" });
 
     var result = await runSignupRequestValidator(invalidFirstNameRequest);
 
@@ -148,7 +151,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when last name is empty", async () => {
-    const invalidLastNameRequest = validSignupRequest({ lastName: "" });
+    const invalidLastNameRequest = signupRequestBuilder.valid({ lastName: "" });
 
     var result = await runSignupRequestValidator(invalidLastNameRequest);
 
@@ -162,7 +165,7 @@ describe("signupRequestSchema", () => {
   });
 
   it("should fail when last name is less than 2 characters", async () => {
-    const invalidLastNameRequest = validSignupRequest({ lastName: "A" });
+    const invalidLastNameRequest = signupRequestBuilder.valid({ lastName: "A" });
 
     var result = await runSignupRequestValidator(invalidLastNameRequest);
 
@@ -172,22 +175,6 @@ describe("signupRequestSchema", () => {
     expect(result.errors[0].message).toBe("Last name must be at least 2 characters");
   });
 });
-
-const validSignupRequest = (modify?: Partial<SignupRequest>): SignupRequest => {
-  let signupRequest: SignupRequest = {
-    email: "test@test.com",
-    password: "Password#1",
-    confirmPassword: "Password#1",
-    firstName: "John",
-    lastName: "Doe",
-  };
-
-  if (modify) {
-    signupRequest = { ...signupRequest, ...modify };
-  }
-
-  return signupRequest;
-};
 
 const runSignupRequestValidator = async (request: SignupRequest) => {
   var result = await signupRequestValidator.validate(request);

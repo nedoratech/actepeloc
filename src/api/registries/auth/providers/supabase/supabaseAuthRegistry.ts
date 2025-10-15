@@ -1,4 +1,4 @@
-import { SupabaseClient, createClient } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 import {
   IAuthRegistry,
   SignupRequest,
@@ -6,19 +6,13 @@ import {
   AuthResult,
   SessionResult,
   ErrorResponse,
-} from "../types/index.js";
-import { config } from "../../../configuration/index.js";
+} from "../../types/index.js";
 
-class SupabaseAuthRegistry implements IAuthRegistry {
+export class SupabaseAuthRegistry implements IAuthRegistry {
   #supabase: SupabaseClient;
 
-  constructor() {
-    this.#supabase = createClient(config.supabase.url, config.supabase.serviceRoleKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
+  constructor(supabaseClient: SupabaseClient) {
+    this.#supabase = supabaseClient;
   }
 
   async signup(params: SignupRequest): Promise<AuthResult> {
@@ -215,5 +209,3 @@ class SupabaseAuthRegistry implements IAuthRegistry {
     return "AUTH_ERROR";
   }
 }
-
-export const supabaseAuthRegistry: IAuthRegistry = new SupabaseAuthRegistry();
