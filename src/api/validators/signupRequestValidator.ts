@@ -32,9 +32,7 @@ const signupRequestSchema = yup.object({
     .max(50, "Last name must not exceed 50 characters"),
 });
 
-type SignupRequestValidated = yup.InferType<typeof signupRequestSchema>;
-
-async function validate(data: SignupRequest): Promise<ValidationResult<SignupRequestValidated>> {
+async function validate(data: SignupRequest): Promise<ValidationResult<SignupRequest>> {
   return validateSchema(signupRequestSchema, data);
 }
 

@@ -9,9 +9,7 @@ const loginRequestSchema = yup.object({
   password: yup.string().required("Password is required"),
 });
 
-type LoginRequestValidated = yup.InferType<typeof loginRequestSchema>;
-
-async function validate(data: LoginRequest): Promise<ValidationResult<LoginRequestValidated>> {
+async function validate(data: LoginRequest): Promise<ValidationResult<LoginRequest>> {
   return validateSchema(loginRequestSchema, data);
 }
 
