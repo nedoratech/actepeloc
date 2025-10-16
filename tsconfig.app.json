@@ -25,5 +25,5 @@
       ]
     }
   },
-  "include": ["src/ui"]
+  "include": ["src/ui", "src/core/configuration", "src/core/i18n", "src/App.tsx", "src/Login.tsx", "src/main.tsx"]
 }
