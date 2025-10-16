@@ -9,8 +9,8 @@
     "yarn": ">=1.22.0"
   },
   "scripts": {
-  "dev": "vite",
-  "dev:host": "vite --host --port 5173",
+    "dev": "vite",
+    "dev:host": "vite --host --port 5173",
     "dev:vercel": "vercel dev",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
