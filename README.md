@@ -4,7 +4,7 @@ Full-stack TypeScript application with React frontend and Vercel serverless API 
 
 ## Tech Stack
 
-- **Frontend:** React 19, TypeScript, Vite 7, Tailwind CSS v4
+- **Frontend:** React 19, TypeScript, Vite 7
 - **Backend:** Vercel Serverless Functions (Node.js) - API Proxy Layer
 - **Database:** Supabase
 - **Deployment:** Vercel
@@ -325,18 +325,6 @@ import { withCors } from "@api/middleware/index.js";
 
 ## Styling
 
-### Tailwind CSS v4
-
-This project uses **Tailwind CSS v4** with CSS-first configuration.
-
-Custom theme values are defined in `src/index.css` using the `@theme` directive:
-
-```css
-@theme {
-  --font-sans: "Futura", system-ui, -apple-system, sans-serif;
-}
-```
-
 ### Custom Fonts
 
 Futura font family is configured as the default sans-serif font:
@@ -360,7 +348,6 @@ Usage:
 - **Line Width:** 100 characters
 - **Semicolons:** Required
 - **Trailing Commas:** ES5
-- **Plugins:** `prettier-plugin-tailwindcss` (auto-sorts Tailwind classes)
 
 Format on save is enabled in VSCode. Manual formatting:
 
