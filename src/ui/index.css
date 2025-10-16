@@ -14,10 +14,6 @@
   font-display: swap;
 }
 
-body {
-  font-family:
-    "Futura",
-    system-ui,
-    -apple-system,
-    sans-serif;
+@theme {
+  --font-sans: "Futura", system-ui, -apple-system, sans-serif;
 }
