@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "Neata!",
-    "welcome": "Bine ați venit",
+    "title": "Bună lumea!",
+    "welcome": "Bine ați venit la aplicația dvs. Vite + React + TypeScript + Tailwind CSS",
     "buttons": {
       "clickMe": "Apasă aici",
       "orMe": "Sau aici"
