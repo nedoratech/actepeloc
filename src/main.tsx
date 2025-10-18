@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./main.css";
 import "./core/i18n/index.ts";
 import { BrowserRouter, Routes, Route } from "react-router";
 import App from "./App.tsx";
-import Login from "./Login.tsx";
+import Login from "./pages/Login.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
