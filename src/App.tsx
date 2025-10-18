@@ -1,11 +1,17 @@
-import { Button } from "@/components/ui/button";
+import type { FC } from "react";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { Login } from "./pages";
 
-function App() {
+const App: FC = () => {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>hai dă click, te rog!</Button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>Home</div>} />
+
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
