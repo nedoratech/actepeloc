@@ -13,7 +13,16 @@
   // "features": {},
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [5173]
+  "forwardPorts": [5173, 3000],
+
+  // Set a few helpful environment variables for the container so Vite's HMR
+  // client can connect back through forwarded ports. You can change these if
+  // your host uses a different address.
+  "containerEnv": {
+    "VITE_HMR_HOST": "localhost",
+    "VITE_HMR_CLIENT_PORT": "5173",
+    "VITE_HMR_PROTOCOL": "ws"
+  }
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "yarn install",
