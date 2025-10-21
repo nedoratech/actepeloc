@@ -4,7 +4,7 @@ function Login() {
   return (
     <div
       className="grid min-h-svh lg:grid-cols-2"
-      style={{ background: 'linear-gradient(to right, #0059FE, #4284FF)' }}
+      style={{ background: 'linear-gradient(to left, #0059FE, #4284FF)' }}
     >
       <div className="relative hidden lg:grid font-[Inter] text-white grid-rows-3 items-center justify-items-center">
         <img
@@ -32,10 +32,8 @@ function Login() {
            SING UP
           </a>
         </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <LoginForm />
-          </div>
+        <div className="w-full max-w-[420px]">
+          <LoginForm />
         </div>
       </div>
     </div>
