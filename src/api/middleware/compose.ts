@@ -1,4 +1,4 @@
-import { Middleware, Handler } from "./types/index.js";
+import type { Middleware, Handler } from "./types/index.js";
 
 export function compose(...middlewares: Middleware[]): Middleware {
   return (handler: Handler) => {
