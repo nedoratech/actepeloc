@@ -3,8 +3,7 @@ import { SignupForm } from "@/components/signup-form";
 function Signup() {
   return (
     <div
-      className="grid min-h-svh lg:grid-cols-2"
-      style={{ background: "linear-gradient(to left, #0059FE, #4284FF)" }}
+      className="grid min-h-svh lg:grid-cols-2 md:bg-linear-to-l md:from-[#0059FE] md:to-[#4284FF]"
     >
       <div className="relative hidden grid-rows-3 items-center justify-items-center font-[Inter] text-white lg:grid">
         <img className="align-middle" src="/img/logoAPL.svg" alt="Logo acte pe loc" />
@@ -23,13 +22,13 @@ function Signup() {
         </div>
       </div>
       <div className="flex flex-col items-center gap-4 p-6 md:p-10">
-        <div className="flex w-[420px] justify-center gap-2 font-[Inter] text-base leading-[1.4] font-[400] tracking-[0.2px] text-white md:justify-start">
+        <div className="flex w-full sm:w-[420px] gap-2 font-[Inter] text-base leading-[1.4] font-[400] tracking-[0.2px] text-[#212121] md:text-white">
           <span>Ai deja un cont? </span>
-          <a href="#" className="flex items-center gap-2 font-bold text-[#01E2FA]">
+          <a href="#" className="flex items-center gap-2 font-bold text-[#212121] md:text-[#01E2FA]">
             LOG IN
           </a>
         </div>
-        <div className="w-full max-w-[420px]">
+        <div className="w-full sm:w-[420px]">
           <SignupForm />
         </div>
       </div>

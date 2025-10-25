@@ -5,8 +5,18 @@ import { Label } from "@/components/ui/label";
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
   return (
-    <div className="relative overflow-hidden rounded-3xl rounded-tr-none bg-white p-8">
-      <img className="absolute top-0 right-0 z-10" src="/img/loginCorner.svg" />
+    <div className="relative overflow-visible rounded-3xl bg-white p-8 border border-[#0059FE] md:border-white">
+      <img
+        className="absolute -top-[2px] -right-[2px] z-10 block md:hidden"
+        src="/img/loginCornerMobile.svg"
+        alt="decorative corner mobile"
+      />
+
+      <img
+        className="absolute -top-[2px] -right-[1px] z-10 hidden md:block"
+        src="/img/loginCorner.svg"
+        alt="decorative corner"
+      />
       <form
         className={cn("flex flex-col gap-6 font-[Inter] leading-[1.4] tracking-[0.2px]", className)}
         {...props}
@@ -59,7 +69,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
           <Button
             type="submit"
-            className="text-grey-900 h-15 w-full rounded-2xl bg-[#01E2FA] text-base font-[700] tracking-[0.2px] hover:bg-[#01E2FA60] shadow-lg shadow-[#01E2FA40]"
+            className="text-grey-900 h-15 justify-self-end w-[97px] md:w-full rounded-2xl bg-[#01E2FA] text-base font-[700] tracking-[0.2px] hover:bg-[#01E2FA60] shadow-lg shadow-[#01E2FA40]"
           >
             Login
           </Button>
