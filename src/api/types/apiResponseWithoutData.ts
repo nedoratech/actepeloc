@@ -1,4 +1,4 @@
-import { ErrorContext } from "./errorContext.js";
+import type { ErrorContext } from "./errorContext.js";
 
 export type ApiResponseWithoutData = {
   success: boolean;

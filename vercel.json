@@ -6,5 +6,11 @@
     "api/**/*.ts": {
       "includeFiles": "src/api/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

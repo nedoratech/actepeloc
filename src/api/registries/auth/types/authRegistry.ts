@@ -1,8 +1,8 @@
-import { AuthResult } from "./authResult.js";
-import { ErrorResponse } from "./errorResponse.js";
-import { LoginRequest } from "./loginRequest.js";
-import { SessionResult } from "./sessionResult.js";
-import { SignupRequest } from "./signupRequest.js";
+import type { AuthResult } from "./authResult.js";
+import type { ErrorResponse } from "./errorResponse.js";
+import type { LoginRequest } from "./loginRequest.js";
+import type { SessionResult } from "./sessionResult.js";
+import type { SignupRequest } from "./signupRequest.js";
 
 export interface IAuthRegistry {
   signup(params: SignupRequest): Promise<AuthResult>;

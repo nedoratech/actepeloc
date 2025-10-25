@@ -1,7 +1,7 @@
 import * as yup from "yup";
-import { ValidationResult } from "./types/validationResult.js";
+import type { ValidationResult } from "./types/validationResult.js";
 import { validateSchema } from "./utils/index.js";
-import { SignupRequest } from "../registries/index.js";
+import type { SignupRequest } from "../registries/index.js";
 
 const signupRequestSchema = yup.object({
   email: yup.string().required("Email cannot be empty").email("Invalid email address"),

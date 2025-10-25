@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { ValidationResult } from "../types/validationResult.js";
+import type { ValidationResult } from "../types/validationResult.js";
 
 export async function validateSchema<T extends yup.AnyObject>(
   schema: yup.ObjectSchema<T>,

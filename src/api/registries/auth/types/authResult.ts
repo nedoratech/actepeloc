@@ -1,5 +1,5 @@
-import { ErrorResponse } from "./errorResponse.js";
-import { User } from "./user.js";
+import type { ErrorResponse } from "./errorResponse.js";
+import type { User } from "./user.js";
 
 export interface AuthResult<T = User> {
   data?: T;
