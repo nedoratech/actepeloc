@@ -1,4 +1,5 @@
 import { LoginForm } from "@/components/login-form";
+import ResumeFolder from '@/assets/img/resumeFolder.svg?react';
 
 function Login() {
   return (
@@ -8,7 +9,8 @@ function Login() {
       <div className="relative hidden grid-rows-3 items-center justify-items-center font-[Inter] text-white lg:grid">
         <img className="align-middle" src="/img/logoAPL.svg" alt="Logo acte pe loc" />
         <div className="grid max-w-[316px] grid-rows-2 items-center justify-items-center gap-3">
-          <img src="/img/resumeFolder.svg" alt="Logo dosar cu acte" />
+          {/* <img src="/img/resumeFolder.svg" alt="Logo dosar cu acte" /> */}
+          <ResumeFolder />
           <div className="text-center">
             <h5 className="mb-2 text-xl leading-[1.2] font-bold">
               Toate actele tale

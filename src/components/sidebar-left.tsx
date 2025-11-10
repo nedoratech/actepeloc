@@ -13,14 +13,11 @@ import {
   Trash2,
 } from "lucide-react"
 
-import { NavFavorites } from "@/components/nav-favorites"
+import LogoAPLColour from "@/assets/img/logoAPLColour.svg?react";
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavWorkspaces } from "@/components/nav-workspaces"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
-  SidebarContent,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
@@ -30,7 +27,7 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: Command,
+      logo: LogoAPLColour,
       plan: "Enterprise",
     },
     {
@@ -262,14 +259,9 @@ export function SidebarLeft({
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <LogoAPLColour />
         <NavMain items={data.navMain} />
       </SidebarHeader>
-      <SidebarContent>
-        <NavFavorites favorites={data.favorites} />
-        <NavWorkspaces workspaces={data.workspaces} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
-      </SidebarContent>
       <SidebarRail />
     </Sidebar>
   )
