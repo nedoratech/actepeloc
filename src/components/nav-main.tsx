@@ -21,9 +21,10 @@ export function NavMain({
       {items.map((item) => (
         <SidebarMenuItem key={item.title}>
           <SidebarMenuButton asChild isActive={item.isActive}>
-            <a href={item.url}>
-              <item.icon />
-              <span>{item.title}</span>
+            <a href={item.url}
+              className="h-6">
+              <item.icon className="size-6 mr-2 inline" />
+              <span className="text-lg">{item.title}</span>
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>
