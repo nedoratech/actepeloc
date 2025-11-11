@@ -1,4 +1,6 @@
 import { SignupForm } from "@/components/signup-form";
+import ResumeFolder from '@/assets/img/resumeFolder.svg?react';
+import LogoAPL from '@/assets/img/logoAPL.svg?react';
 
 function Signup() {
   return (
@@ -6,9 +8,9 @@ function Signup() {
       className="grid min-h-svh lg:grid-cols-2 md:bg-linear-to-l md:from-[#0059FE] md:to-[#4284FF]"
     >
       <div className="relative hidden grid-rows-3 items-center justify-items-center font-[Inter] text-white lg:grid">
-        <img className="align-middle" src="/img/logoAPL.svg" alt="Logo acte pe loc" />
+        <LogoAPL className="align-middle" alt="Logo acte pe loc" />
         <div className="grid max-w-[316px] grid-rows-2 items-center justify-items-center gap-3">
-          <img src="/img/resumeFolder.svg" alt="Logo dosar cu acte" />
+          <ResumeFolder alt="Logo dosar cu acte" />
           <div className="text-center">
             <h5 className="mb-2 text-xl leading-[1.2] font-bold">
               Toate actele tale

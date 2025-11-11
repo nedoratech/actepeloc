@@ -2,19 +2,21 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import LoginCornerMobile from '@/assets/img/loginCornerMobile.svg?react';
+import LoginCorner from '@/assets/img/loginCorner.svg?react';
+import GoogleButton from '@/assets/img/googleButton.svg?react';
+import FacebookButton from '@/assets/img/facebookButton.svg?react';
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
   return (
     <div className="relative overflow-visible rounded-3xl bg-white p-8 border border-[#0059FE] md:border-white">
-      <img
+      <LoginCornerMobile
         className="absolute -top-[2px] -right-[2px] z-10 block md:hidden"
-        src="/img/loginCornerMobile.svg"
         alt="decorative corner mobile"
       />
 
-      <img
+      <LoginCorner
         className="absolute -top-[2px] -right-[1px] z-10 hidden md:block"
-        src="/img/loginCorner.svg"
         alt="decorative corner"
       />
       <form
@@ -80,14 +82,14 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             type="submit"
             className="text-grey-900 h-15 w-full rounded-2xl border border-[#EEEEEE] bg-white text-base font-[700] tracking-[0.2px] hover:bg-white"
           >
-            <img src="/img/googleButton.svg" className="mr-2 inline" />
+            <GoogleButton className="size-6 mr-2 inline" />
             Continuă cu Google
           </Button>
           <Button
             type="submit"
             className="text-grey-900 h-15 w-full rounded-2xl border border-[#EEEEEE] bg-white text-base font-[700] tracking-[0.2px] hover:bg-white"
           >
-            <img src="/img/facebookButton.svg" className="mr-2 inline" />
+            <FacebookButton className="size-6 mr-2 inline" />
             Continuă cu Facebook
           </Button>
         </div>
