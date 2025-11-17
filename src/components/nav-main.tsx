@@ -17,13 +17,13 @@ export function NavMain({
   }[]
 }) {
   return (
-    <SidebarMenu>
+    <SidebarMenu className="gap-3">
       {items.map((item) => (
-        <SidebarMenuItem key={item.title}>
-          <SidebarMenuButton asChild isActive={item.isActive}>
+        <SidebarMenuItem className="h-14" key={item.title}>
+          <SidebarMenuButton className="h-14" asChild isActive={item.isActive}>
             <a href={item.url}
               className="h-6">
-              <item.icon className="size-6 mr-2 inline" />
+              <item.icon className="!size-6" />
               <span className="text-lg">{item.title}</span>
             </a>
           </SidebarMenuButton>

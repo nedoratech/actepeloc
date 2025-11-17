@@ -1,17 +1,4 @@
 import * as React from "react"
-import {
-  AudioWaveform,
-  Blocks,
-  Calendar,
-  Command,
-  Home,
-  Inbox,
-  MessageCircleQuestion,
-  Search,
-  Settings2,
-  Sparkles,
-  Trash2,
-} from "lucide-react"
 
 import LogoAPLColour from "@/assets/img/logoAPLColour.svg?react";
 import NewContract from "@/assets/img/newContract.svg?react";
@@ -59,8 +46,8 @@ export function SidebarLeft({
 }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
-      <SidebarHeader>
-        <LogoAPLColour />
+      <SidebarHeader className="p-4">
+        <LogoAPLColour className="py-4 px-2 h-25"/>
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarRail />
